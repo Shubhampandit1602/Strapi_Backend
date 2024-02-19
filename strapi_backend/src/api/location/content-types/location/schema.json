@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "locations",
+  "info": {
+    "singularName": "location",
+    "pluralName": "locations",
+    "displayName": "location",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Area": {
+      "type": "string",
+      "required": true
+    },
+    "cusines": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cusine.cusine"
+    }
+  }
+}
