@@ -1,0 +1,66 @@
+{
+  "kind": "collectionType",
+  "collectionName": "kitchens",
+  "info": {
+    "singularName": "kitchen",
+    "pluralName": "kitchens",
+    "displayName": "kitchen",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "kitchenName": {
+      "type": "string",
+      "required": true
+    },
+    "chefName": {
+      "type": "string",
+      "required": true
+    },
+    "chefImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "rating": {
+      "type": "decimal",
+      "required": true
+    },
+    "mealsDelivered": {
+      "type": "integer",
+      "required": true
+    },
+    "signatureDishes": {
+      "type": "text",
+      "required": true
+    },
+    "FSSAI_No": {
+      "type": "biginteger",
+      "required": true
+    },
+    "Veg_NonVeg": {
+      "type": "enumeration",
+      "enum": [
+        "Veg",
+        "Non-Veg"
+      ],
+      "required": true
+    },
+    "location": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::location.location"
+    },
+    "cusine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cusine.cusine"
+    }
+  }
+}

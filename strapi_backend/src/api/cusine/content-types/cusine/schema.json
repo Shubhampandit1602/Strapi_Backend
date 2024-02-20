@@ -4,7 +4,8 @@
   "info": {
     "singularName": "cusine",
     "pluralName": "cusines",
-    "displayName": "cusine"
+    "displayName": "cusine",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,6 +15,17 @@
     "cusine": {
       "type": "string",
       "required": true
+    },
+    "kitchens": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::kitchen.kitchen"
+    },
+    "location": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::location.location",
+      "inversedBy": "cusines"
     }
   }
 }
