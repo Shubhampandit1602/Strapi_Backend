@@ -16,10 +16,16 @@
       "type": "string",
       "required": true
     },
+    "kitchens": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::kitchen.kitchen"
+    },
     "cusines": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::cusine.cusine"
+      "target": "api::cusine.cusine",
+      "mappedBy": "location"
     }
   }
 }

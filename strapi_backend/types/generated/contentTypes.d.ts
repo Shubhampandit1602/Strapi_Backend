@@ -789,12 +789,23 @@ export interface ApiCusineCusine extends Schema.CollectionType {
     singularName: 'cusine';
     pluralName: 'cusines';
     displayName: 'cusine';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     cusine: Attribute.String & Attribute.Required;
+    kitchens: Attribute.Relation<
+      'api::cusine.cusine',
+      'oneToMany',
+      'api::kitchen.kitchen'
+    >;
+    location: Attribute.Relation<
+      'api::cusine.cusine',
+      'manyToOne',
+      'api::location.location'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -806,6 +817,54 @@ export interface ApiCusineCusine extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::cusine.cusine',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiKitchenKitchen extends Schema.CollectionType {
+  collectionName: 'kitchens';
+  info: {
+    singularName: 'kitchen';
+    pluralName: 'kitchens';
+    displayName: 'kitchen';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    kitchenName: Attribute.String & Attribute.Required;
+    chefName: Attribute.String & Attribute.Required;
+    chefImage: Attribute.Media;
+    rating: Attribute.Decimal & Attribute.Required;
+    mealsDelivered: Attribute.Integer & Attribute.Required;
+    signatureDishes: Attribute.Text & Attribute.Required;
+    FSSAI_No: Attribute.BigInteger & Attribute.Required;
+    Veg_NonVeg: Attribute.Enumeration<['Veg', 'Non-Veg']> & Attribute.Required;
+    location: Attribute.Relation<
+      'api::kitchen.kitchen',
+      'oneToOne',
+      'api::location.location'
+    >;
+    cusine: Attribute.Relation<
+      'api::kitchen.kitchen',
+      'oneToOne',
+      'api::cusine.cusine'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::kitchen.kitchen',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::kitchen.kitchen',
       'oneToOne',
       'admin::user'
     > &
@@ -826,6 +885,11 @@ export interface ApiLocationLocation extends Schema.CollectionType {
   };
   attributes: {
     Area: Attribute.String & Attribute.Required;
+    kitchens: Attribute.Relation<
+      'api::location.location',
+      'oneToMany',
+      'api::kitchen.kitchen'
+    >;
     cusines: Attribute.Relation<
       'api::location.location',
       'oneToMany',
@@ -868,6 +932,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::cusine.cusine': ApiCusineCusine;
+      'api::kitchen.kitchen': ApiKitchenKitchen;
       'api::location.location': ApiLocationLocation;
     }
   }
