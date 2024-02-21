@@ -44,14 +44,6 @@
       "type": "biginteger",
       "required": true
     },
-    "Veg_NonVeg": {
-      "type": "enumeration",
-      "enum": [
-        "Veg",
-        "Non-Veg"
-      ],
-      "required": true
-    },
     "location": {
       "type": "relation",
       "relation": "oneToOne",
@@ -61,6 +53,21 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::cusine.cusine"
+    },
+    "dishes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dish.dish",
+      "mappedBy": "kitchen"
+    },
+    "Veg_NonVeg": {
+      "type": "customField",
+      "options": [
+        "Veg",
+        "Non-Veg"
+      ],
+      "required": true,
+      "customField": "plugin::multi-select.multi-select"
     }
   }
 }

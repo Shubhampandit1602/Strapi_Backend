@@ -585,6 +585,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -736,53 +783,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiCusineCusine extends Schema.CollectionType {
   collectionName: 'cusines';
   info: {
@@ -824,6 +824,40 @@ export interface ApiCusineCusine extends Schema.CollectionType {
   };
 }
 
+export interface ApiDishDish extends Schema.CollectionType {
+  collectionName: 'dishes';
+  info: {
+    singularName: 'dish';
+    pluralName: 'dishes';
+    displayName: 'Dish';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    dishName: Attribute.String & Attribute.Required;
+    dishPrice: Attribute.Decimal & Attribute.Required;
+    dishRating: Attribute.Decimal & Attribute.Required;
+    dishImage: Attribute.Media & Attribute.Required;
+    dishDescription: Attribute.Text & Attribute.Required;
+    dishTags: Attribute.Text & Attribute.Required;
+    kitchen: Attribute.Relation<
+      'api::dish.dish',
+      'manyToOne',
+      'api::kitchen.kitchen'
+    >;
+    Veg_NonVeg: Attribute.Enumeration<['Veg', 'Non-Veg']> & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::dish.dish', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::dish.dish', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiKitchenKitchen extends Schema.CollectionType {
   collectionName: 'kitchens';
   info: {
@@ -843,7 +877,6 @@ export interface ApiKitchenKitchen extends Schema.CollectionType {
     mealsDelivered: Attribute.Integer & Attribute.Required;
     signatureDishes: Attribute.Text & Attribute.Required;
     FSSAI_No: Attribute.BigInteger & Attribute.Required;
-    Veg_NonVeg: Attribute.Enumeration<['Veg', 'Non-Veg']> & Attribute.Required;
     location: Attribute.Relation<
       'api::kitchen.kitchen',
       'oneToOne',
@@ -854,6 +887,17 @@ export interface ApiKitchenKitchen extends Schema.CollectionType {
       'oneToOne',
       'api::cusine.cusine'
     >;
+    dishes: Attribute.Relation<
+      'api::kitchen.kitchen',
+      'oneToMany',
+      'api::dish.dish'
+    >;
+    Veg_NonVeg: Attribute.JSON &
+      Attribute.Required &
+      Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        ['Veg', 'Non-Veg']
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -927,11 +971,12 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::cusine.cusine': ApiCusineCusine;
+      'api::dish.dish': ApiDishDish;
       'api::kitchen.kitchen': ApiKitchenKitchen;
       'api::location.location': ApiLocationLocation;
     }
