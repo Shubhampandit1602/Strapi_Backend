@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dishes",
+  "info": {
+    "singularName": "dish",
+    "pluralName": "dishes",
+    "displayName": "Dish",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "dishName": {
+      "type": "string",
+      "required": true
+    },
+    "dishPrice": {
+      "type": "decimal",
+      "required": true
+    },
+    "dishRating": {
+      "type": "decimal",
+      "required": true
+    },
+    "dishImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "dishDescription": {
+      "type": "text",
+      "required": true
+    },
+    "dishTags": {
+      "type": "text",
+      "required": true
+    },
+    "kitchen": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::kitchen.kitchen",
+      "inversedBy": "dishes"
+    },
+    "Veg_NonVeg": {
+      "type": "enumeration",
+      "enum": [
+        "Veg",
+        "Non-Veg"
+      ],
+      "required": true
+    }
+  }
+}
