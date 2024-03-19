@@ -38,7 +38,7 @@
     },
     "signatureDishes": {
       "type": "text",
-      "required": true
+      "required": false
     },
     "FSSAI_No": {
       "type": "biginteger",

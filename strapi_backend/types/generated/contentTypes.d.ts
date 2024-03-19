@@ -840,7 +840,7 @@ export interface ApiDishDish extends Schema.CollectionType {
     dishPrice: Attribute.Decimal & Attribute.Required;
     dishRating: Attribute.Decimal & Attribute.Required;
     dishImage: Attribute.Media & Attribute.Required;
-    dishDescription: Attribute.Text & Attribute.Required;
+    dishDescription: Attribute.Text;
     dishTags: Attribute.Text & Attribute.Required;
     kitchen: Attribute.Relation<
       'api::dish.dish',
@@ -875,7 +875,7 @@ export interface ApiKitchenKitchen extends Schema.CollectionType {
     chefImage: Attribute.Media;
     rating: Attribute.Decimal & Attribute.Required;
     mealsDelivered: Attribute.Integer & Attribute.Required;
-    signatureDishes: Attribute.Text & Attribute.Required;
+    signatureDishes: Attribute.Text;
     FSSAI_No: Attribute.BigInteger & Attribute.Required;
     location: Attribute.Relation<
       'api::kitchen.kitchen',
