@@ -34,7 +34,7 @@
     },
     "dishDescription": {
       "type": "text",
-      "required": false
+      "required": true
     },
     "dishTags": {
       "type": "text",
